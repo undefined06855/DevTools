@@ -56,12 +56,21 @@ void devtools::separator() {
 void devtools::nextItemWidth(float width) {
     ImGui::SetNextItemWidth(width);
 }
+
 void devtools::indent() {
     ImGui::Indent(16.f);
 }
 void devtools::unindent() {
     ImGui::Unindent(16.f);
 }
+
+void devtools::pushID(geode::ZStringView id) {
+    ImGui::PushID(id.c_str());
+}
+void devtools::popID(geode::ZStringView id) {
+    ImGui::PopID();
+}
+
 bool devtools::combo(ZStringView label, int& current, std::span<char const*> items, int maxHeight) {
     return ImGui::Combo(
         label.c_str(),

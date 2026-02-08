@@ -144,8 +144,12 @@ namespace devtools {
     inline void sameLine() GEODE_EVENT_EXPORT_NORES(&sameLine, ());
     inline void separator() GEODE_EVENT_EXPORT_NORES(&separator, ());
     inline void nextItemWidth(float width) GEODE_EVENT_EXPORT_NORES(&nextItemWidth, (width));
+
     inline void indent() GEODE_EVENT_EXPORT_NORES(&indent, ());
     inline void unindent() GEODE_EVENT_EXPORT_NORES(&unindent, ());
+
+    inline void pushID(geode::ZStringView id) GEODE_EVENT_EXPORT_NORES(&pushID, (id));
+    inline void popID(geode::ZStringView id) GEODE_EVENT_EXPORT_NORES(&popID, (id));
 
     inline bool combo(
         geode::ZStringView label,
