@@ -64,11 +64,33 @@ void devtools::unindent() {
     ImGui::Unindent(16.f);
 }
 
-void devtools::pushID(geode::ZStringView id) {
+void devtools::pushID(ZStringView id) {
     ImGui::PushID(id.c_str());
 }
-void devtools::popID(geode::ZStringView id) {
+void devtools::pushID(int id) {
+    ImGui::PushID(id);
+}
+void devtools::popID() {
     ImGui::PopID();
+}
+
+Result<bool> devtools::treeNode(ZStringView name, bool isLeaf, bool openByDefault) {
+    ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_None;
+
+    if (isLeaf) {
+        flags |= ImGuiTreeNodeFlags_Leaf;
+    }
+
+    if (DevTools::get()->getSettings().arrowExpand) {
+        flags |= ImGuiTreeNodeFlags_OpenOnArrow;
+    }
+
+    ImGui::SetNextItemOpen(openByDefault);
+
+    return Ok(ImGui::TreeNodeEx(name.c_str(), flags));
+}
+void devtools::treePop() {
+    ImGui::TreePop();
 }
 
 bool devtools::combo(ZStringView label, int& current, std::span<char const*> items, int maxHeight) {

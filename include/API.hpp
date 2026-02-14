@@ -148,8 +148,23 @@ namespace devtools {
     inline void indent() GEODE_EVENT_EXPORT_NORES(&indent, ());
     inline void unindent() GEODE_EVENT_EXPORT_NORES(&unindent, ());
 
-    inline void pushID(geode::ZStringView id) GEODE_EVENT_EXPORT_NORES(&pushID, (id));
-    inline void popID(geode::ZStringView id) GEODE_EVENT_EXPORT_NORES(&popID, (id));
+    inline void pushID(geode::ZStringView id) GEODE_EVENT_EXPORT_ID_NORES(&pushID, (id), MY_MOD_ID "/pushID-string");
+    inline void pushID(int id) GEODE_EVENT_EXPORT_ID_NORES(static_cast<void(*)(int)>(&pushID), (id), MY_MOD_ID "/pushID-int");
+    inline void popID() GEODE_EVENT_EXPORT_NORES(&popID, ());
+
+    /// @brief Renders a tree diagram (like the node tree) in the DevTools UI.
+    /// @param name The label for this layer.
+    /// @param isLeaf Whether this layer is a leaf. Leaves have no children and no arrow to expand.
+    /// @return Whether the tree is open or not. If the tree is open, draw the child nodes.
+    /// @note Make sure to call devtools::popTree only if the tree is open, usually at the end of the if case.
+    /// @example
+    /// if (devtools::treeNode("root", false, true).unwrapOrDefault()) {
+    ///     /* your other children, including other treeNode calls */
+    ///
+    ///     devtools::treePop();
+    /// }
+    inline geode::Result<bool> treeNode(geode::ZStringView name, bool isLeaf, bool openByDefault) GEODE_EVENT_EXPORT(&treeNode, (name, isLeaf, openByDefault));
+    inline void treePop() GEODE_EVENT_EXPORT_NORES(&treePop, ());
 
     inline bool combo(
         geode::ZStringView label,
